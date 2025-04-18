@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -127,3 +128,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # model of user
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# django messages
+MESSAGE_TAGS = {
+    constants.DEBUG: 'alert-secondary',
+    constants.ERROR: 'alert-danger',
+    constants.SUCCESS: 'alert-success',
+    constants.WARNING: 'alert-warning',
+    constants.INFO: 'alert-primary'
+}

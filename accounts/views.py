@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import CustomUser
+from django.contrib import messages
+from django.contrib.messages import constants
 
 # Create your views here.
 def login(request):
@@ -17,7 +19,11 @@ def register(request):
         gender = request.POST.get('gender')
         user_exist = CustomUser.objects.filter(email = email).exists()
         if user_exist:
-            return redirect('/account/register/?status=error_1')
+            messages.add_message(request, constants.WARNING, 'Já existe um cadastro com esse e-mail!')
+            return redirect('/account/register/')
+        if not first_name:
+            messages.add_message(request, constants.WARNING, 'É obrigatório informar o primeiro nome!')
+            return redirect('/account/register/')
         user = CustomUser.objects.create_user(
             first_name = first_name,
             surname = surname,
