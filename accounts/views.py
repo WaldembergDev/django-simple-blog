@@ -6,6 +6,9 @@ from django.contrib.messages import constants
 
 # Create your views here.
 def login(request):
+    # verificando se o usuário está autenticado
+    if request.user.is_authenticated:
+        return redirect('/plataform/home')
     if request.method == 'GET':
         return render(request, 'login.html')
     else:
@@ -18,7 +21,6 @@ def login(request):
             messages.add_message(request, constants.WARNING, 'É necessário informar uma senha!')
             return redirect('/account/login/')
         user = auth.authenticate(request, email=email, password=password)
-        print(user)
         if user:
             auth.login(request, user)
             return redirect('/account/login/')
@@ -67,4 +69,8 @@ def register(request):
         )
         user.save()
         messages.add_message(request, constants.SUCCESS, 'Cadastro realizado com sucesso!')
-        return redirect('/account/register/')
+        return redirect('/plataform/home')
+
+def logout(request):
+   auth.logout(request)
+   return redirect('/account/login')
