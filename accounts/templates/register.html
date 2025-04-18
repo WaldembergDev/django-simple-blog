@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Registre-se{% endblock %}
+{% block content %}
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card shadow p-5 rounded w-100 w-md-50">
+        <form method="POST" action="{% url 'register' %}" class="gap-4 mt-5 d-flex flex-column align-self-center">
+            {% csrf_token %}
+            <h2 class="">Cadastre-se aqui</h2>
+            <div class="">
+                <label for="InputFirstName" class="form-label">Primeiro Nome</label>
+                <input name="first_name" type="text" class="form-control" id="InputFirstName">
+            </div>
+            <div class="">
+                <label for="InputSurname" class="form-label">Sobrenome</label>
+                <input name="surname" type="text" class="form-control" id="InputSurname">
+            </div>
+            <div class="">
+                <label for="InputEmail" class="form-label">E-mail</label>
+                <input name="email" type="email" class="form-control" id="InputEmail">
+            </div>
+            <div class="">
+                <label for="InputPassword" class="form-label">Senha</label>
+                <input name="password" type="password" class="form-control" id="InputPassword">
+            </div>
+            <div class="">
+                <label for="InputDate" class="form-label">Data de Nascimento</label>
+                <input name="date_of_birth" type="date" class="form-control" id="InputDate">
+            </div>
+            <div class="">
+                <label for="InputGender" class="form-label">Gênero</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" id="radioDefault1" value="F">
+                    <label class="form-check-label" for="radioDefault1">
+                      Feminino
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" id="radioDefault2">
+                    <label class="form-check-label" for="radioDefault2" value="M">
+                      Masculino
+                    </label>
+                  </div>
+            </div>
+            <div class="align-self-center">
+                <button type="submit" class="btn btn-primary ">Registrar</button>
+            </div>
+            <p class="text-center">
+                Já possui conta? Logue <a href="{% url 'login' %}">aqui</a>
+            </p>              
+        </form>
+    </div>
+    </div>
+{% endblock %}
