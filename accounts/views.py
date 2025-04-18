@@ -1,11 +1,29 @@
 from django.shortcuts import render, redirect
 from .models import CustomUser
+from django.contrib import auth
 from django.contrib import messages
 from django.contrib.messages import constants
 
 # Create your views here.
 def login(request):
-    return render(request, 'login.html')
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    else:
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        if not email:
+            messages.add_message(request, constants.WARNING, 'É necessário informar um e-mail!')
+            return redirect('/account/login/')
+        if not password:
+            messages.add_message(request, constants.WARNING, 'É necessário informar uma senha!')
+            return redirect('/account/login/')
+        user = auth.authenticate(request, email=email, password=password)
+        print(user)
+        if user:
+            auth.login(request, user)
+            return redirect('/account/login/')
+        messages.add_message(request, constants.WARNING, 'Login ou senha inválidos!')
+        return redirect('/account/login/')
 
 def register(request):
     if request.method == 'GET':
