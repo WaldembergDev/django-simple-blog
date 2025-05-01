@@ -3,7 +3,8 @@
 {% block title %}Novo post{% endblock %}
 {% block content %}
     <div class="container">
-        <form class="d-flex flex-column gap-3 mt-5">
+        <form method="POST" action="{% url 'new_post' %}" class="d-flex flex-column gap-3 mt-5">
+          {% csrf_token %}
             <h2 class="text-center">Novo Post</h2>
             <div class="">
               <label for="InputTitle" class="form-label">Titulo</label>
@@ -14,24 +15,14 @@
                 <textarea name="content" class="form-control" id="InputTextArea" rows="6"></textarea>
               </div>
               <div class="form-floating">
-                
-                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                  <option selected>Open this select menu</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                <select name="categorie" class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                  {% for categorie in categories %}
+                    <option value="{{categorie}}">{{categorie}}</option>
+                  {% endfor %}
                 </select>
                 <label for="floatingSelect">Selecione uma categoria</label>
               </div>
             <button type="submit" class="btn btn-primary align-self-center w-25">Criar Post</button>
-        
           </form>
     </div>
-    <!--
-    author = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
-    created_in = models.DateTimeField()
-    updated_in = models.DateTimeField()
-    slug = models.SlugField(blank=True, null=True)
-    status = models.CharField(max_length=10, choices=StatusEnumPost.choices, default=StatusEnumPost.SKETCH)
-    categories = models.ForeignKey(Categories, on_delete=models.DO_NOTHING)-->
 {% endblock %}
