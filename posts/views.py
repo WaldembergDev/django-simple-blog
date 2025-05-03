@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Categories, Post
 from django.utils import timezone
+from django.contrib import messages
+from django.contrib.messages import constants
 
 # Create your views here.
 @login_required(login_url='/account/login/')
@@ -30,6 +32,8 @@ def new_post(request):
 def delete_post(request, id):
     post = Post.objects.filter(id = id).first()
     post.delete()
+    # criando uma mensagem
+    messages.add_message(request, constants.SUCCESS, 'Post deletado com sucesso!')
     return redirect('/plataform/home/')
 
 def edit_post(request, id):
@@ -51,6 +55,8 @@ def edit_post(request, id):
         post.updated_in = update_in
         # salvando as alterações do post
         post.save()
+        # criando uma mensagem
+        messages.add_message(request, constants.SUCCESS, 'Post atualizado com sucesso!')
         # redirecionando o usuário para a mesma página
         return redirect('edit_post', id=post.id)
                 

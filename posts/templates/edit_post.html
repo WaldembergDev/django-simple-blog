@@ -26,6 +26,13 @@
                 <label for="floatingSelect">Selecione uma categoria</label>
             </div>
             <button type="submit" class="btn btn-primary align-self-center w-25">Salvar alterações</button>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} align-self-center" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
         </form>
     </div>
 {% endblock %}
