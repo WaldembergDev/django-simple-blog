@@ -2,7 +2,21 @@
 {% load static %}
 {% block title %}Home{% endblock %}
 {% block content %}
-    <div>
+    <div class='container d-flex flex-column align-items-center gap-5'>
         <h1 class='text-center'>Todos os Posts</h1>
+        {% for post in posts %}
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{post.title}}</h5>
+              <p class="card-text">{{post.content}}</p>
+              <p>Criado por: {{post.author}}</p>
+              <p>Categoria: {{post.categories}}</p>
+              {% if request.user == post.author %}
+                <a href="{% url 'edit_post' post.id %}"><button type="button" class="btn btn-secondary">Editar post</button></a>
+                <a href="{% url 'delete_post' post.id %}"><button type="button" class="btn btn-danger">Excluir post</button></a>
+              {% endif %}
+            </div>
+        </div>
+        {% endfor %}
     </div>    
 {% endblock %}

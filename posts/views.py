@@ -25,3 +25,12 @@ def new_post(request):
         )
         new_post.save()
         return redirect('/posts/new_post')
+
+@login_required(login_url='/account/login/')
+def delete_post(request, id):
+    post = Post.objects.filter(id = id).first()
+    post.delete()
+    return redirect('/plataform/home/')
+
+def edit_post(request, id):
+    pass
