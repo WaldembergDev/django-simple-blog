@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Edição de post{% endblock %}
+{% block content %}
+    <div class="container">
+        <form method="POST" action="{% url 'edit_post' post.id %}" class="d-flex flex-column gap-3 mt-5">
+        {% csrf_token %}
+            <h2 class="text-center">Editar Post</h2>
+            <div class="">
+            <label for="InputTitle" class="form-label">Titulo</label>
+            <input name="title" type="text" class="form-control" id="InputTitle" value="{{post.title}}">
+            </div>
+            <div class="">
+                <label for="InputTextArea" class="form-label">Conteúdo</label>
+                <textarea name="content" class="form-control" id="InputTextArea" rows="6">{{post.content}}</textarea>
+            </div>
+            <div class="form-floating">
+                <select name="categorie" class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                {% for categorie in categories %}
+                    {% if categorie == post.categories %}
+                    <option selected>{{post.categories}}</option>
+                    {% else %}
+                    <option value="{{categorie}}">{{categorie}}</option>
+                    {% endif %}
+                {% endfor %}
+                </select>
+                <label for="floatingSelect">Selecione uma categoria</label>
+            </div>
+            <button type="submit" class="btn btn-primary align-self-center w-25">Salvar alterações</button>
+        </form>
+    </div>
+{% endblock %}

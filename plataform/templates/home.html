@@ -11,6 +11,9 @@
               <p class="card-text">{{post.content}}</p>
               <p>Criado por: {{post.author}}</p>
               <p>Categoria: {{post.categories}}</p>
+              {% if post.updated_in %}
+              <p>Atualizado em: {{post.updated_in }}</p>
+              {% endif %}
               {% if request.user == post.author %}
                 <a href="{% url 'edit_post' post.id %}"><button type="button" class="btn btn-secondary">Editar post</button></a>
                 <a href="{% url 'delete_post' post.id %}"><button type="button" class="btn btn-danger">Excluir post</button></a>
