@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Minha Conta{% endblock %}
+{% block content %}
+    <div class="container">
+        <form method="POST" action="{% url 'my_account' %}">
+            {% csrf_token %}
+            <h1 class="text-center">Minha Conta</h1>
+            <div class="mb-3">
+              <label for="InputFirstName" class="form-label">Primeiro nome</label>
+              <input name="first_name" type="text" class="form-control" id="InputFirstName" value="{{request.user.first_name}}">
+            </div>
+            <div class="mb-3">
+              <label for="InputSurname" class="form-label">Sobrenome</label>
+              <input name="surname" type="text" class="form-control" id="InputSurname" value="{{request.user.surname}}">
+            </div>
+            <div class="mb-3">
+              <label for="InputEmail" class="form-label">E-mail</label>
+              <input name="email" type="text" class="form-control" id="InputSurname" value="{{request.user.email}}">
+            </div>
+            <div class="mb-3">
+              <label for="InputDateBirth" class="form-label">Data de Nascimento</label>
+              <input name="date_of_birth" type="date" class="form-control" id="InputSurname" value="{{request.user.date_of_birth|date:'Y-m-d'}}">
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar alterações</button>
+          </form>
+    </div>
+{% endblock %}

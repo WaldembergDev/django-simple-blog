@@ -58,6 +58,4 @@ def edit_post(request, id):
         # criando uma mensagem
         messages.add_message(request, constants.SUCCESS, 'Post atualizado com sucesso!')
         # redirecionando o usuário para a mesma página
-        return redirect('edit_post', id=post.id)
-                
-    
+        return redirect('edit_post', id=post.id)    

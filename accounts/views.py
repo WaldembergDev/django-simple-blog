@@ -3,6 +3,7 @@ from .models import CustomUser
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.messages import constants
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def login(request):
@@ -74,3 +75,8 @@ def register(request):
 def logout(request):
    auth.logout(request)
    return redirect('/account/login')
+
+@login_required(login_url='/account/login')
+def my_account(request):
+    if request.method == 'GET':
+        return render(request, 'my_account.html')
