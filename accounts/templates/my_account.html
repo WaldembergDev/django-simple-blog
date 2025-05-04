@@ -21,7 +21,30 @@
               <label for="InputDateBirth" class="form-label">Data de Nascimento</label>
               <input name="date_of_birth" type="date" class="form-control" id="InputSurname" value="{{request.user.date_of_birth|date:'Y-m-d'}}">
             </div>
-            <button type="submit" class="btn btn-primary">Salvar alterações</button>
+            {% for gender in genders %}
+            <div class="form-check">
+              <input value="{{ gender }}" class="form-check-input" type="radio" name="gender" id="radioDefault{{ forloop.counter }}" {% if gender == request.user.gender %}checked{% endif %}>
+              <label class="form-check-label" for="radioDefault{{ forloop.counter }}">
+                {{gender}}
+              </label>
+            </div>
+            {% endfor %}
+            <div class="mb-3">
+              <label for="InputPassword" class="form-label">Senha</label>
+              <input name="password" type="password" class="form-control" id="InputPassword" placeholder="*************">
+            </div>
+            <div class="mb-3">
+              <label for="InputConfirmPassword" class="form-label">Confirmação de senha</label>
+              <input name="confirm_password" type="password" class="form-control" id="InputConfirmPassword" placeholder="*************">
+            </div>
+            <button type="submit" class="btn btn-primary mb-3 mt-3">Salvar alterações</button>
+            {% if messages %}
+              {% for message in messages %}
+              <div class="alert {{ message.tags }}" role="alert">
+                {{ message }}
+              </div>              
+              {% endfor %}
+            {% endif %}
           </form>
     </div>
 {% endblock %}

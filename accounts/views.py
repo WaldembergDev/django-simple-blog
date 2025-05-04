@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import CustomUser
+from .models import CustomUser, GenderEnum
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 def login(request):
@@ -79,4 +80,49 @@ def logout(request):
 @login_required(login_url='/account/login')
 def my_account(request):
     if request.method == 'GET':
-        return render(request, 'my_account.html')
+        # salvando os gêneros em uma lista
+        genders = [gender.value for gender in GenderEnum]
+        return render(request, 'my_account.html', {'genders': genders})
+    else:
+        first_name = request.POST.get('first_name')
+        surname = request.POST.get('surname')
+        email = request.POST.get('email')
+        date_of_birth = request.POST.get('date_of_birth')
+        gender = request.POST.get('gender')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        # obtendo o usuário logado
+        user = request.user
+        # validando os campos
+        if not first_name:
+            messages.add_message(request, constants.WARNING, 'O nome do usuário não pode estar vazio!')
+            return redirect('/account/my_account/')
+        if not surname:
+            messages.add_message(request, constants.WARNING, 'O sobrenome não pode estar vazio!')
+            return redirect('/account/my_account/')
+        if not email:
+            messages.add_message(request, constants.WARNING, 'O e-mail não pode estar vazio!')
+            return redirect('/account/my_account/')
+        if not date_of_birth:
+            messages.add_message(request, constants.WARNING, 'A data de nascimento não pode estar vazia!')
+            return redirect('/account/my_account/')
+        if password != confirm_password:
+            messages.add_message(request, constants.WARNING, 'As senhas digitadas não são iguais não pode estar vazia!')
+            return redirect('/account/my_account/')
+        # atualizando os dados do usuário
+        user.first_name = first_name
+        user.surname = surname
+        user.email = email
+        user.date_of_birth = date_of_birth
+        user.gender = gender
+        # atualizando a senha se ela tiver sido preenchida
+        if password:
+            user.set_password(password)
+        # atualizando no banco de dados
+        user.save()
+        # permanecendo o usuário logado caso ele tenha alterado a senha
+        update_session_auth_hash(request, user)
+        # mostrando uma mensagem de confirmação ao usuário
+        messages.add_message(request, constants.SUCCESS, 'Dados alterados com sucesso!')
+        # redirecionando o usuário para a mesma url
+        return redirect('/account/my_account')
